@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Quản lý lớp học</string>
+    <string name="navigation_drawer_open">Mở danh sách lớp</string>
+    <string name="navigation_drawer_close">Đóng danh sách lớp</string>
+    <string name="drawer_header_title">Danh sách lớp</string>
+    <string name="drawer_header_subtitle">Chọn lớp để xem sinh viên</string>
+    <string name="class_a01">Lớp A01</string>
+    <string name="class_a02">Lớp A02</string>
+    <string name="class_title">Lớp %1$s</string>
+    <string name="class_label">Mã lớp</string>
+    <string name="homeroom_teacher_label">Giáo viên chủ nhiệm</string>
+    <string name="student_list_title">Sinh viên</string>
+    <plurals name="student_count">
+        <item quantity="one">%d sinh viên</item>
+        <item quantity="other">%d sinh viên</item>
+    </plurals>
+</resources>
