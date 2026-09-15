@@ -1,6 +1,7 @@
 package com.example.lab_5b_mobile;
 
 import android.os.Bundle;
+import android.graphics.Color;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     R.string.navigation_drawer_open,
                     R.string.navigation_drawer_close
             );
+            toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
             drawer.addDrawerListener(toggle);
             toggle.syncState();
         }
@@ -107,21 +109,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void seedClassrooms() {
         classrooms.put("A01", new Classroom(
-                "A01", "Nguyễn Thị Mai",
+                "A01", "Đặng Ngọc Hoàng Thành",
                 Arrays.asList(
-                        new Student("SV01", "Nguyễn Văn An"),
-                        new Student("SV02", "Lê Thị Bình"),
-                        new Student("SV03", "Trần Minh Châu")
+                        new Student("SV01", "Nguyễn Tấn Khiêm"),
+                        new Student("SV02", "Nguyễn Phương Chinh"),
+                        new Student("SV03", "Trương Thành Đạt")
                 )
         ));
 
         classrooms.put("A02", new Classroom(
-                "A02", "Trần Quốc Hùng",
+                "A02", "Nguyễn Quốc Hùng",
                 Arrays.asList(
-                        new Student("SV04", "Phạm Gia Huy"),
-                        new Student("SV05", "Võ Ngọc Lan"),
-                        new Student("SV06", "Đỗ Quốc Minh"),
-                        new Student("SV07", "Bùi Thanh Tâm")
+                        new Student("SV04", "Phan Khắc Anh Tuấn"),
+                        new Student("SV05", "Lại Thành Đạt"),
+                        new Student("SV06", "Nguyễn Thành Đạt"),
+                        new Student("SV07", "Phan Nhựt Đăng Khoa")
                 )
         ));
     }
