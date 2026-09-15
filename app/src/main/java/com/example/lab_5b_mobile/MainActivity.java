@@ -49,15 +49,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDrawer() {
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this,
-                binding.drawerLayout,
-                binding.toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-        );
-        binding.drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+        if (binding.getRoot() instanceof androidx.drawerlayout.widget.DrawerLayout) {
+            androidx.drawerlayout.widget.DrawerLayout drawer = (androidx.drawerlayout.widget.DrawerLayout) binding.getRoot();
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this,
+                    drawer,
+                    binding.toolbar,
+                    R.string.navigation_drawer_open,
+                    R.string.navigation_drawer_close
+            );
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+        }
         binding.navigationView.setNavigationItemSelectedListener(this::onClassSelected);
     }
 
@@ -78,7 +81,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         item.setChecked(true);
-        binding.drawerLayout.closeDrawer(GravityCompat.START);
+        if (binding.getRoot() instanceof androidx.drawerlayout.widget.DrawerLayout) {
+            ((androidx.drawerlayout.widget.DrawerLayout) binding.getRoot()).closeDrawer(GravityCompat.START);
+        }
         return true;
     }
 
@@ -129,8 +134,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        if (binding.getRoot() instanceof androidx.drawerlayout.widget.DrawerLayout && 
+            ((androidx.drawerlayout.widget.DrawerLayout) binding.getRoot()).isDrawerOpen(GravityCompat.START)) {
+            ((androidx.drawerlayout.widget.DrawerLayout) binding.getRoot()).closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
