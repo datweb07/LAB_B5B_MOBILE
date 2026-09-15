@@ -3,7 +3,6 @@
     <string name="navigation_drawer_open">Mở danh sách lớp</string>
     <string name="navigation_drawer_close">Đóng danh sách lớp</string>
     <string name="drawer_header_title">Danh sách lớp</string>
-    <string name="drawer_header_subtitle">Chọn lớp để xem sinh viên</string>
     <string name="class_a01">Lớp A01</string>
     <string name="class_a02">Lớp A02</string>
     <string name="class_title">Lớp %1$s</string>

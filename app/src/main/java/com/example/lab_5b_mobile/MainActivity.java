@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.appbar.MaterialToolbar;
+import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Arrays;
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private MaterialToolbar toolbar;
+    private Toolbar toolbar;
     
     private TextView classCodeText;
     private TextView homeroomTeacherText;
