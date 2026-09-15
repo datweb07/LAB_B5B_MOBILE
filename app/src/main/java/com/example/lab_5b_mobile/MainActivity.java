@@ -180,19 +180,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private static final class Classroom {
-        private final String code;
-        private final String homeroomTeacher;
-        private final List<Student> students;
 
-        Classroom(String code, String homeroomTeacher, List<Student> students) {
-            this.code = code;
-            this.homeroomTeacher = homeroomTeacher;
-            this.students = students;
-        }
-
-        String getCode() { return code; }
-        String getHomeroomTeacher() { return homeroomTeacher; }
-        List<Student> getStudents() { return students; }
-    }
 }
