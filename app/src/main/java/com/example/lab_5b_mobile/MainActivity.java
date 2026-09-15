@@ -2,16 +2,20 @@ package com.example.lab_5b_mobile;
 
 import android.os.Bundle;
 import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.lab_5b_mobile.databinding.ActivityMainBinding;
-import com.example.lab_5b_mobile.databinding.ContentMainBinding;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -21,56 +25,65 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private static final String STATE_SELECTED_CLASS = "selected_class";
-    private ActivityMainBinding binding;
-    private ContentMainBinding contentBinding;
-    private StudentAdapter studentAdapter;
     private final Map<String, Classroom> classrooms = new LinkedHashMap<>();
     private String selectedClassCode = "A01";
+
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private MaterialToolbar toolbar;
+    
+    private TextView classCodeText;
+    private TextView homeroomTeacherText;
+    private TextView studentCountText;
+    private LinearLayout studentListContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        contentBinding = ContentMainBinding.bind(binding.getRoot().findViewById(R.id.content_main));
-        setSupportActionBar(binding.toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
+        toolbar = findViewById(R.id.toolbar);
+        
+        classCodeText = findViewById(R.id.class_code);
+        homeroomTeacherText = findViewById(R.id.homeroom_teacher);
+        studentCountText = findViewById(R.id.student_count);
+        studentListContainer = findViewById(R.id.student_list);
+
+        setSupportActionBar(toolbar);
 
         seedClassrooms();
         setupDrawer();
-        setupStudentList();
 
         if (savedInstanceState != null) {
             selectedClassCode = savedInstanceState.getString(STATE_SELECTED_CLASS, "A01");
         }
         showClassroom(selectedClassCode);
-        binding.navigationView.setCheckedItem(
-                "A02".equals(selectedClassCode) ? R.id.nav_class_a02 : R.id.nav_class_a01
-        );
+        
+        if (navigationView != null) {
+            navigationView.setCheckedItem(
+                    "A02".equals(selectedClassCode) ? R.id.nav_class_a02 : R.id.nav_class_a01
+            );
+        }
     }
 
     private void setupDrawer() {
-        if (binding.getRoot() instanceof androidx.drawerlayout.widget.DrawerLayout) {
-            androidx.drawerlayout.widget.DrawerLayout drawer = (androidx.drawerlayout.widget.DrawerLayout) binding.getRoot();
+        if (drawerLayout != null) {
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                     this,
-                    drawer,
-                    binding.toolbar,
+                    drawerLayout,
+                    toolbar,
                     R.string.navigation_drawer_open,
                     R.string.navigation_drawer_close
             );
             toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
-            drawer.addDrawerListener(toggle);
+            drawerLayout.addDrawerListener(toggle);
             toggle.syncState();
         }
-        binding.navigationView.setNavigationItemSelectedListener(this::onClassSelected);
-    }
-
-    private void setupStudentList() {
-        studentAdapter = new StudentAdapter();
-        contentBinding.studentList.setLayoutManager(new LinearLayoutManager(this));
-        contentBinding.studentList.setAdapter(studentAdapter);
-        contentBinding.studentList.setHasFixedSize(true);
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(this::onClassSelected);
+        }
     }
 
     private boolean onClassSelected(@NonNull MenuItem item) {
@@ -83,8 +96,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         item.setChecked(true);
-        if (binding.getRoot() instanceof androidx.drawerlayout.widget.DrawerLayout) {
-            ((androidx.drawerlayout.widget.DrawerLayout) binding.getRoot()).closeDrawer(GravityCompat.START);
+        if (drawerLayout != null) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         }
         return true;
     }
@@ -96,15 +109,39 @@ public class MainActivity extends AppCompatActivity {
         }
 
         selectedClassCode = classCode;
-        binding.toolbar.setTitle(getString(R.string.class_title, classroom.getCode()));
-        contentBinding.classCode.setText(classroom.getCode());
-        contentBinding.homeroomTeacher.setText(classroom.getHomeroomTeacher());
-        contentBinding.studentCount.setText(getResources().getQuantityString(
-                R.plurals.student_count,
-                classroom.getStudents().size(),
-                classroom.getStudents().size()
-        ));
-        studentAdapter.submitList(classroom.getStudents());
+        if (toolbar != null) {
+            toolbar.setTitle(getString(R.string.class_title, classroom.getCode()));
+        }
+        
+        if (classCodeText != null) classCodeText.setText(classroom.getCode());
+        if (homeroomTeacherText != null) homeroomTeacherText.setText(classroom.getHomeroomTeacher());
+        if (studentCountText != null) {
+            studentCountText.setText(getResources().getQuantityString(
+                    R.plurals.student_count,
+                    classroom.getStudents().size(),
+                    classroom.getStudents().size()
+            ));
+        }
+
+        populateStudentList(classroom.getStudents());
+    }
+
+    private void populateStudentList(List<Student> students) {
+        if (studentListContainer == null) return;
+        
+        studentListContainer.removeAllViews();
+        LayoutInflater inflater = LayoutInflater.from(this);
+        
+        for (Student student : students) {
+            View studentView = inflater.inflate(R.layout.item_student, studentListContainer, false);
+            TextView idText = studentView.findViewById(R.id.student_id);
+            TextView nameText = studentView.findViewById(R.id.student_name);
+            
+            if (idText != null) idText.setText(student.getId());
+            if (nameText != null) nameText.setText(student.getFullName());
+            
+            studentListContainer.addView(studentView);
+        }
     }
 
     private void seedClassrooms() {
@@ -136,9 +173,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (binding.getRoot() instanceof androidx.drawerlayout.widget.DrawerLayout && 
-            ((androidx.drawerlayout.widget.DrawerLayout) binding.getRoot()).isDrawerOpen(GravityCompat.START)) {
-            ((androidx.drawerlayout.widget.DrawerLayout) binding.getRoot()).closeDrawer(GravityCompat.START);
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }

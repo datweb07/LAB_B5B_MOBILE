@@ -73,8 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="3 sinh viên" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/student_list"
+        <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
@@ -83,8 +82,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/student_heading"
-        tools:itemCount="3"
-        tools:listitem="@layout/item_student" />
+        app:layout_constraintTop_toBottomOf="@id/student_heading">
+        
+        <LinearLayout
+            android:id="@+id/student_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
