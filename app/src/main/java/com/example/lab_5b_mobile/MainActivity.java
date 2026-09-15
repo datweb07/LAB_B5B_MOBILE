@@ -2,7 +2,6 @@ package com.example.lab_5b_mobile;
 
 import android.os.Bundle;
 import android.graphics.Color;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -130,15 +129,22 @@ public class MainActivity extends AppCompatActivity {
         if (studentListContainer == null) return;
         
         studentListContainer.removeAllViews();
-        LayoutInflater inflater = LayoutInflater.from(this);
         
         for (Student student : students) {
-            View studentView = inflater.inflate(R.layout.item_student, studentListContainer, false);
-            TextView idText = studentView.findViewById(R.id.student_id);
-            TextView nameText = studentView.findViewById(R.id.student_name);
+            TextView studentView = new TextView(this);
+            studentView.setText(student.getId() + " - " + student.getFullName());
+            studentView.setTextSize(16);
+            studentView.setPadding(32, 32, 32, 32);
+            studentView.setTextColor(Color.BLACK);
             
-            if (idText != null) idText.setText(student.getId());
-            if (nameText != null) nameText.setText(student.getFullName());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, 
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 0, 0, 16);
+            studentView.setLayoutParams(params);
+            
+            studentView.setBackgroundColor(Color.parseColor("#F5F5F5"));
             
             studentListContainer.addView(studentView);
         }
