@@ -5,11 +5,9 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_class_a01"
-            android:icon="@drawable/ic_class"
             android:title="@string/class_a01" />
         <item
             android:id="@+id/nav_class_a02"
-            android:icon="@drawable/ic_class"
             android:title="@string/class_a02" />
     </group>
 </menu>

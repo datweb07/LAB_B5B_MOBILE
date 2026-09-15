@@ -7,4 +7,9 @@
     </style>
 
     <style name="Theme.LAB_5B_MOBILE" parent="Base.Theme.LAB_5B_MOBILE" />
+
+    <style name="ShapeAppearanceOverlay.Square" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">0dp</item>
+    </style>
 </resources>
